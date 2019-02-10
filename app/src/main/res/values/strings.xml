@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">InstaClone</string>
+    <string name="hint_kickBoxer_name">Please enter the name of the kickboxer</string>
+    <string name="hint_kickBoxer_punchSpeed">Please enter the punch speed</string>
+    <string name="hint_kickBoxer_punchPower">Please enter the punch power</string>
+    <string name="hint_kickBoxer_kickSpeed">Please enter the kick speed</string>
+    <string name="btn_save">Save kickboxer to server</string>
+    <string name="hint_kickBoxer_kickPower">Please enter the kick power</string>
+    <string name="get_data">Get data</string>
+    <string name="button_get_all_data">Get All Data</string>
+
 </resources>
