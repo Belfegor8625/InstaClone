@@ -1,5 +1,6 @@
 package com.bartoszlewandowski.instaclone;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -41,6 +42,8 @@ public class SignUp extends AppCompatActivity {
     TextView txtGetData;
     @BindView(R.id.btnGetAllData)
     Button btnGetAllData;
+    @BindView(R.id.btnTransition)
+    Button btnTransition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +111,7 @@ public class SignUp extends AppCompatActivity {
                 if (e == null) {
                     if (objects.size() > 0) {
                         String allKickBoxers = "";
-                        for (ParseObject parseObject:objects){
+                        for (ParseObject parseObject : objects) {
                             allKickBoxers = allKickBoxers + parseObject.get("name") + "\n";
                         }
 
@@ -122,5 +125,11 @@ public class SignUp extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @OnClick(R.id.btnTransition)
+    public void transition(View v) {
+        Intent intent = new Intent(SignUp.this, SignUpLoginActivity.class);
+        startActivity(intent);
     }
 }

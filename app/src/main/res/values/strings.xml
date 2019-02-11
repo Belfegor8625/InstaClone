@@ -1,4 +1,5 @@
 <resources>
+    //activity_sign_up
     <string name="app_name">InstaClone</string>
     <string name="hint_kickBoxer_name">Please enter the name of the kickboxer</string>
     <string name="hint_kickBoxer_punchSpeed">Please enter the punch speed</string>
@@ -8,5 +9,13 @@
     <string name="hint_kickBoxer_kickPower">Please enter the kick power</string>
     <string name="get_data">Get data</string>
     <string name="button_get_all_data">Get All Data</string>
+    <string name="switch_activity">Switch to another activity</string>
 
+    //signup_login_activity
+    <string name="sign_up">Sign up user</string>
+    <string name="log_in">Log in user</string>
+    <string name="hint_username">Enter username</string>
+    <string name="hint_password">Enter password</string>
+
+    <string name="log_out">Logout</string>
 </resources>
