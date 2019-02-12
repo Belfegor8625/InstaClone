@@ -12,10 +12,11 @@
     <string name="switch_activity">Switch to another activity</string>
 
     //signup_login_activity
-    <string name="sign_up">Sign up user</string>
-    <string name="log_in">Log in user</string>
-    <string name="hint_username">Enter username</string>
-    <string name="hint_password">Enter password</string>
+    <string name="sign_up">Sign up</string>
+    <string name="log_in">Log in</string>
+    <string name="hint_email">Please enter an email</string>
+    <string name="hint_username">Please enter an username</string>
+    <string name="hint_password">Please enter a password</string>
 
     <string name="log_out">Logout</string>
 </resources>
