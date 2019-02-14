@@ -2,9 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootSignUpLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/holo_red_light"
+    android:onClick="rootLayoutTapped"
     tools:context=".SignUp">
 
     <EditText
@@ -95,6 +97,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/backgrounds/scenic[1]" />
+        app:srcCompat="@drawable/placeholder"
+        tools:srcCompat="@drawable/placeholder" />
 
 </android.support.constraint.ConstraintLayout>
