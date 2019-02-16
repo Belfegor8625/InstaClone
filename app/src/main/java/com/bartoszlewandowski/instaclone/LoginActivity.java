@@ -1,8 +1,14 @@
+/*
+ * Made by Bartosz Lewandowski
+ * Copyright (c) Lodz, Poland 2019.
+ */
+
 package com.bartoszlewandowski.instaclone;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -55,12 +61,16 @@ public class LoginActivity extends AppCompatActivity {
     public void login(View v) {
         if (edtLoginEmail.getText().toString().equals("") ||
                 edtLoginPassword.getText().toString().equals("")) {
+            FancyToast.makeText(LoginActivity.this, "Email and Password is required!",
+                    Toast.LENGTH_LONG, FancyToast.ERROR, false);
+        }else{
             ParseUser.logInInBackground(edtLoginEmail.getText().toString(), edtLoginPassword.getText().toString(), new LogInCallback() {
                 @Override
                 public void done(ParseUser user, ParseException e) {
                     if (user != null && e == null) {
                         FancyToast.makeText(LoginActivity.this, user.getUsername() + " logged in",
                                 Toast.LENGTH_LONG, FancyToast.SUCCESS, false);
+                        startSocialMediaActivity();
                     } else {
                         FancyToast.makeText(LoginActivity.this, e.getMessage(),
                                 Toast.LENGTH_LONG, FancyToast.ERROR, false);
@@ -84,5 +94,10 @@ public class LoginActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void startSocialMediaActivity(){
+        Intent intent = new Intent(LoginActivity.this,SocialMediaActivity.class);
+        startActivity(intent);
     }
 }

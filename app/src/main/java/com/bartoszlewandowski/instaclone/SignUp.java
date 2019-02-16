@@ -1,3 +1,8 @@
+/*
+ * Made by Bartosz Lewandowski
+ * Copyright (c) Lodz, Poland 2019.
+ */
+
 package com.bartoszlewandowski.instaclone;
 
 import android.app.ProgressDialog;
@@ -49,6 +54,9 @@ public class SignUp extends AppCompatActivity {
                 return false;
             }
         });
+        if(ParseUser.getCurrentUser() != null){
+            startSocialMediaActivity();
+        }
     }
 
 
@@ -80,6 +88,7 @@ public class SignUp extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
             });
+            startSocialMediaActivity();
         }
     }
 
@@ -97,5 +106,10 @@ public class SignUp extends AppCompatActivity {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    private void startSocialMediaActivity(){
+        Intent intent = new Intent(SignUp.this,SocialMediaActivity.class);
+        startActivity(intent);
     }
 }

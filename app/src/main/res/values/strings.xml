@@ -1,6 +1,13 @@
+<!--
+  ~ Made by Bartosz Lewandowski
+  ~ Copyright (c) Lodz, Poland 2019.
+  -->
+
 <resources>
     //activity_sign_up
     <string name="app_name">InstaClone</string>
+    <string name="social">Social Media</string>
+
     <string name="hint_kickBoxer_name">Please enter the name of the kickboxer</string>
     <string name="hint_kickBoxer_punchSpeed">Please enter the punch speed</string>
     <string name="hint_kickBoxer_punchPower">Please enter the punch power</string>
@@ -19,4 +26,7 @@
     <string name="hint_password">Please enter a password</string>
 
     <string name="log_out">Logout</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
