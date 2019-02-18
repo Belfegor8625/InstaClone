@@ -12,13 +12,13 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".SocialMediaActivity"
-            android:label="@string/social" />
+            android:label="@string/social"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".LoginActivity"
             android:label="@string/log_in" />
         <activity
-            android:name=".SignUp"
-            android:label="@string/sign_up">
+            android:name=".SignUp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

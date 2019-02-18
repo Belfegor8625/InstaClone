@@ -24,14 +24,11 @@ public class TabAdapter extends FragmentPagerAdapter {
 
         switch (tabPosition) {
             case 0:
-                ProfileTab profileTab = new ProfileTab();
-                return profileTab;
+                return new ProfileTab();
             case 1:
-                UsersTab usersTab = new UsersTab();
-                return usersTab;
+                return new UsersTab();
             case 2:
-                SharePictureTab sharePictureTab = new SharePictureTab();
-                return sharePictureTab;
+                return new SharePictureTab();
             default:
                 return null;
         }
