@@ -27,6 +27,14 @@
 
     <string name="log_out">Logout</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    // fragment_profile_tab
+    <string name="hint_profile_name">Please enter a profile name</string>
+    <string name="hint_bio">Please enter your bio</string>
+    <string name="hint_profession">Please enter your profession</string>
+    <string name="hint_hobbies">Please enter your hobbies</string>
+    <string name="hint_fav_sport">Please enter your favourite sport</string>
+    <string name="btn_update_info">Update Info</string>
+
+    // fragment_users_tab
+    <string name="loading_text">Loading Users... Please wait</string>
 </resources>
