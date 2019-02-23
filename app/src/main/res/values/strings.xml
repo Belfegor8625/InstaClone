@@ -36,5 +36,10 @@
     <string name="btn_update_info">Update Info</string>
 
     // fragment_users_tab
-    <string name="loading_text">Loading Users... Please wait</string>
+    <string name="loading_text">Loading Users… Please wait</string>
+
+    // fragment_share_picture_tab
+    <string name="hint_picture_description">Please enter a description for your image</string>
+    <string name="btn_share_image">Share image</string>
+
 </resources>
