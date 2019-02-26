@@ -42,4 +42,8 @@
     <string name="hint_picture_description">Please enter a description for your image</string>
     <string name="btn_share_image">Share image</string>
 
+    //my_menu
+    <string name="menu_post_image_title">Post Image</string>
+    <string name="menu_logout_title">Logout</string>
+
 </resources>

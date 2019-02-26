@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Made by Bartosz Lewandowski
+  ~ Copyright (c) Lodz, Poland 2019.
+  -->
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/postImageItem"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"
+        android:title="@string/menu_post_image_title"
+        android:icon="@drawable/camera_item"/>
+
+    <item
+        android:id="@+id/logoutUserItem"
+        android:orderInCategory="100"
+        android:title="@string/menu_logout_title"
+        app:showAsAction="never"/>
+</menu>

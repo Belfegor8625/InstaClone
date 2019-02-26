@@ -99,5 +99,6 @@ public class LoginActivity extends AppCompatActivity {
     private void startSocialMediaActivity(){
         Intent intent = new Intent(LoginActivity.this,SocialMediaActivity.class);
         startActivity(intent);
+        finish();
     }
 }

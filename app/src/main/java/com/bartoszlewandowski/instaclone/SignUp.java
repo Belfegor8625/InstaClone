@@ -54,7 +54,7 @@ public class SignUp extends AppCompatActivity {
                 return false;
             }
         });
-        if(ParseUser.getCurrentUser() != null){
+        if (ParseUser.getCurrentUser() != null) {
             startSocialMediaActivity();
         }
     }
@@ -86,9 +86,9 @@ public class SignUp extends AppCompatActivity {
                                 Toast.LENGTH_LONG, FancyToast.ERROR, false).show();
                     }
                     progressDialog.dismiss();
+                    startSocialMediaActivity();
                 }
             });
-            startSocialMediaActivity();
         }
     }
 
@@ -99,17 +99,18 @@ public class SignUp extends AppCompatActivity {
     }
 
     @OnClick(R.id.rootSignUpLayout)
-    public void rootLayoutTapped(View v){
+    public void rootLayoutTapped(View v) {
         InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-        try{
-            inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(),0);
-        }catch (Exception e){
+        try {
+            inputMethodManager.hideSoftInputFromWindow(Objects.requireNonNull(getCurrentFocus()).getWindowToken(), 0);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    private void startSocialMediaActivity(){
-        Intent intent = new Intent(SignUp.this,SocialMediaActivity.class);
+    private void startSocialMediaActivity() {
+        Intent intent = new Intent(SignUp.this, SocialMediaActivity.class);
         startActivity(intent);
+        finish();
     }
 }
