@@ -3,7 +3,7 @@
  * Copyright (c) Lodz, Poland 2019.
  */
 
-package com.bartoszlewandowski.instaclone;
+package com.bartoszlewandowski.instaclone.social.fragments;
 
 
 import android.Manifest;
@@ -27,9 +27,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.bartoszlewandowski.instaclone.R;
+import com.bartoszlewandowski.instaclone.consts.Codes;
+import com.bartoszlewandowski.instaclone.consts.DatabaseConsts;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
@@ -38,6 +40,7 @@ import com.parse.SaveCallback;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,8 +56,6 @@ public class SharePictureTab extends Fragment {
     ImageView imgShare;
     @BindView(R.id.edtPictureDescription)
     EditText edtPictureDescription;
-    @BindView(R.id.btnShareImage)
-    Button btnShareImage;
 
     Bitmap receivedImageBitmap;
 
@@ -64,7 +65,7 @@ public class SharePictureTab extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_share_picture_tab, container, false);
@@ -76,9 +77,10 @@ public class SharePictureTab extends Fragment {
     @OnClick(R.id.imgShare)
     public void imgShareTapped(View v) {
         if (Build.VERSION.SDK_INT >= 23 &&
-                ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 1000);
+                ActivityCompat.checkSelfPermission(Objects.requireNonNull(getContext()),
+                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    Codes.REQUEST_CODE_PERMISSION_TO_EXTERNAL_STORAGE);
         } else {
             getChosenImage();
         }
@@ -86,7 +88,7 @@ public class SharePictureTab extends Fragment {
 
     private void getChosenImage() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(intent, 2000);
+        startActivityForResult(intent, Codes.REQUEST_CODE_CHOOSE_IMAGE);
     }
 
     @OnClick(R.id.btnShareImage)
@@ -96,30 +98,7 @@ public class SharePictureTab extends Fragment {
                 FancyToast.makeText(getContext(), "Error: You must enter a description",
                         Toast.LENGTH_SHORT, FancyToast.ERROR, false).show();
             } else {
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                byte[] bytes = byteArrayOutputStream.toByteArray();
-                ParseFile parseFile = new ParseFile("img.png", bytes);
-                ParseObject parseObject = new ParseObject("Photo");
-                parseObject.put("picture", parseFile);
-                parseObject.put("image_des", edtPictureDescription.getText().toString());
-                parseObject.put("username", ParseUser.getCurrentUser().getUsername());
-                final ProgressDialog progressDialog = new ProgressDialog(getContext());
-                progressDialog.setMessage("Loading");
-                progressDialog.show();
-                parseObject.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e == null){
-                            FancyToast.makeText(getContext(), "Done",
-                                    Toast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
-                        }else{
-                            FancyToast.makeText(getContext(), "Error:" + e.getMessage(),
-                                    Toast.LENGTH_SHORT, FancyToast.ERROR, false).show();
-                        }
-                        progressDialog.dismiss();
-                    }
-                });
+                shareImage();
             }
         } else {
             FancyToast.makeText(getContext(), "Error: You must select an image",
@@ -127,10 +106,44 @@ public class SharePictureTab extends Fragment {
         }
     }
 
+    private void shareImage() {
+        final ProgressDialog progressDialog = new ProgressDialog(getContext());
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+        makeParseObjectToShare().saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    FancyToast.makeText(getContext(), "Done",
+                            Toast.LENGTH_SHORT, FancyToast.SUCCESS, false).show();
+                } else {
+                    FancyToast.makeText(getContext(), "Error:" + e.getMessage(),
+                            Toast.LENGTH_SHORT, FancyToast.ERROR, false).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    private ParseObject makeParseObjectToShare() {
+        ParseObject parseObject = new ParseObject(DatabaseConsts.CLASS_PHOTO);
+        parseObject.put(DatabaseConsts.PICTURE_FILE, convertImageBitmapToParseFile());
+        parseObject.put(DatabaseConsts.PICTURE_DESCRIPTION, edtPictureDescription.getText().toString());
+        parseObject.put(DatabaseConsts.USERNAME, ParseUser.getCurrentUser().getUsername());
+        return parseObject;
+    }
+
+    private ParseFile convertImageBitmapToParseFile() {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        receivedImageBitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] bytes = byteArrayOutputStream.toByteArray();
+        return new ParseFile("img.png", bytes);
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1000) {
+        if (requestCode == Codes.REQUEST_CODE_PERMISSION_TO_EXTERNAL_STORAGE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 getChosenImage();
             }
@@ -141,23 +154,29 @@ public class SharePictureTab extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 2000) {
+        if (requestCode == Codes.REQUEST_CODE_CHOOSE_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 try {
-                    Uri selectedImage = data.getData();
-                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    Cursor cursor = getActivity().getContentResolver().query(selectedImage,
-                            filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
-                    imgShare.setImageBitmap(receivedImageBitmap);
+                    setChosenImageInImageView(data);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+    }
+
+    private void setChosenImageInImageView(Intent data) {
+        Uri selectedImage = data.getData();
+        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+        Cursor cursor = Objects.requireNonNull(getActivity())
+                .getContentResolver()
+                .query(Objects.requireNonNull(selectedImage),
+                        filePathColumn, null, null, null);
+        Objects.requireNonNull(cursor).moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        String picturePath = cursor.getString(columnIndex);
+        cursor.close();
+        receivedImageBitmap = BitmapFactory.decodeFile(picturePath);
+        imgShare.setImageBitmap(receivedImageBitmap);
     }
 }

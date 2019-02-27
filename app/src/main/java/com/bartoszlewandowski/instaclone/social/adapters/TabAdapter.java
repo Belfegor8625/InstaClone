@@ -3,12 +3,16 @@
  * Copyright (c) Lodz, Poland 2019.
  */
 
-package com.bartoszlewandowski.instaclone;
+package com.bartoszlewandowski.instaclone.social.adapters;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import com.bartoszlewandowski.instaclone.social.fragments.ProfileTab;
+import com.bartoszlewandowski.instaclone.social.fragments.SharePictureTab;
+import com.bartoszlewandowski.instaclone.social.fragments.UsersTab;
 
 /**
  * Created by Bartosz Lewandowski on 16.02.2019.

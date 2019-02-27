@@ -3,7 +3,7 @@
  * Copyright (c) Lodz, Poland 2019.
  */
 
-package com.bartoszlewandowski.instaclone;
+package com.bartoszlewandowski.instaclone.basic;
 
 import android.app.Application;
 

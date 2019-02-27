@@ -3,7 +3,7 @@
  * Copyright (c) Lodz, Poland 2019.
  */
 
-package com.bartoszlewandowski.instaclone;
+package com.bartoszlewandowski.instaclone.registration;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.bartoszlewandowski.instaclone.login.LoginActivity;
+import com.bartoszlewandowski.instaclone.R;
+import com.bartoszlewandowski.instaclone.social.SocialMediaActivity;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
@@ -27,7 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class SignUp extends AppCompatActivity {
+public class SignUpActivity extends AppCompatActivity {
 
     //butterknife implementation
     @BindView(R.id.edtSignUpEmail)
@@ -45,6 +48,14 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         ButterKnife.bind(this);
+
+        registerOnEnterListenerInPassword();
+        if (ParseUser.getCurrentUser() != null) {
+            startSocialMediaActivity();
+        }
+    }
+
+    private void registerOnEnterListenerInPassword() {
         edtSignUpPassword.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
@@ -54,47 +65,49 @@ public class SignUp extends AppCompatActivity {
                 return false;
             }
         });
-        if (ParseUser.getCurrentUser() != null) {
-            startSocialMediaActivity();
-        }
     }
 
 
     @OnClick(R.id.btnSignUp)
     public void btnSignUpClick(View v) {
-        final ParseUser parseUser = new ParseUser();
-        parseUser.setEmail(edtSignUpEmail.getText().toString());
-        parseUser.setUsername(edtSignUpUsername.getText().toString());
-        parseUser.setPassword(edtSignUpPassword.getText().toString());
+        final ParseUser newUser = new ParseUser();
+        newUser.setEmail(edtSignUpEmail.getText().toString());
+        newUser.setUsername(edtSignUpUsername.getText().toString());
+        newUser.setPassword(edtSignUpPassword.getText().toString());
         if (edtSignUpEmail.getText().toString().equals("") ||
                 edtSignUpUsername.getText().toString().equals("") ||
                 edtSignUpPassword.getText().toString().equals("")) {
-            FancyToast.makeText(SignUp.this, "Email, Username and Password is required!",
+            FancyToast.makeText(SignUpActivity.this, "Email, Username and Password is required!",
                     Toast.LENGTH_LONG, FancyToast.INFO, false).show();
         } else {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Signing up " + parseUser.getUsername());
-            progressDialog.show();
-            parseUser.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(ParseException e) {
-                    if (e == null) {
-                        FancyToast.makeText(SignUp.this, parseUser.getUsername() + " is signed up",
-                                Toast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
-                    } else {
-                        FancyToast.makeText(SignUp.this, e.getMessage(),
-                                Toast.LENGTH_LONG, FancyToast.ERROR, false).show();
-                    }
-                    progressDialog.dismiss();
-                    startSocialMediaActivity();
-                }
-            });
+            registerNewUser(newUser);
         }
     }
 
+    private void registerNewUser(final ParseUser newUser){
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Signing up " + newUser.getUsername());
+        progressDialog.show();
+        newUser.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    FancyToast.makeText(SignUpActivity.this, newUser.getUsername() + " is signed up",
+                            Toast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+                    startSocialMediaActivity();
+                } else {
+                    FancyToast.makeText(SignUpActivity.this, e.getMessage(),
+                            Toast.LENGTH_LONG, FancyToast.ERROR, false).show();
+                }
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+
     @OnClick(R.id.btnGoToLogIn)
     public void startLoginActivity(View v) {
-        Intent intent = new Intent(SignUp.this, LoginActivity.class);
+        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(intent);
     }
 
@@ -109,7 +122,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void startSocialMediaActivity() {
-        Intent intent = new Intent(SignUp.this, SocialMediaActivity.class);
+        Intent intent = new Intent(SignUpActivity.this, SocialMediaActivity.class);
         startActivity(intent);
         finish();
     }

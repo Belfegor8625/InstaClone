@@ -18,14 +18,16 @@
     <string name="button_get_all_data">Get All Data</string>
     <string name="switch_activity">Switch to another activity</string>
 
-    //signup_login_activity
+    //activity_signup
     <string name="sign_up">Sign up</string>
     <string name="log_in">Log in</string>
     <string name="hint_email">Please enter an email</string>
     <string name="hint_username">Please enter an username</string>
     <string name="hint_password">Please enter a password</string>
-
     <string name="log_out">Logout</string>
+
+    // activity_login
+    <string name="hint_username_or_email">Username or email</string>
 
     // fragment_profile_tab
     <string name="hint_profile_name">Please enter a profile name</string>
