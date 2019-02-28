@@ -127,7 +127,7 @@ public class UsersPosts extends AppCompatActivity {
     }
 
     private String validateDescription(String description) {
-        if (description == null) {
+        if (description == null || description.equals("null")) {
             return "No description";
         } else {
             return description;
